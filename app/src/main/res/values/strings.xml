@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">EzzBook</string>
+    <string name="email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="action_sign_in_short">Register</string>
+    <string name="btn_forgot_password">Forgot your password?</string>
+    <string name="btn_link_to_login">Already registered? Click here to Login</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_link_to_register">Not a member? Register now!</string>
+    <string name="auth_failed">Authentication failed, check your email and password or sign up</string>
+    <string name="sign_out_text">Sign Out</string>
+    <string name="welcome_text">You are logged in! Welcome!</string>
+
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
+</resources>

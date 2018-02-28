@@ -1,20 +1,29 @@
 package com.example.madhura.seproject;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.github.sumimakito.awesomeqr.AwesomeQRCode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button signOut;
+    private Button signOut,btnQrcode;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
+    Bitmap bitmap ;
+    ImageView qrImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +50,23 @@ public class MainActivity extends AppCompatActivity {
         };
 
         signOut = (Button)findViewById(R.id.sign_out);
+        btnQrcode=(Button)findViewById(R.id.btn_qrcode);
+        qrImage=(ImageView)findViewById(R.id.qrimage);
 
+
+        btnQrcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Bitmap qrCode1 = new AwesomeQRCode.Renderer()
+                        .contents("SE project")
+                        .size(800).margin(20)
+                        .render();
+                qrImage.setImageBitmap(qrCode1);
+            }
+
+
+        });
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
         });
+
+
     }
 
     //sign out method
@@ -62,6 +89,39 @@ public class MainActivity extends AppCompatActivity {
         //progressBar.setVisibility(View.GONE);
     }
 
+    Bitmap TextToImageEncode(String Value) throws WriterException {
+        BitMatrix bitMatrix;
+        try {
+            bitMatrix = new MultiFormatWriter().encode(
+                    Value,
+                    BarcodeFormat.DATA_MATRIX.QR_CODE,
+                    20, 20, null
+            );
+
+        } catch (IllegalArgumentException Illegalargumentexception) {
+
+            return null;
+        }
+        int bitMatrixWidth = bitMatrix.getWidth();
+
+        int bitMatrixHeight = bitMatrix.getHeight();
+
+        int[] pixels = new int[bitMatrixWidth * bitMatrixHeight];
+
+        for (int y = 0; y < bitMatrixHeight; y++) {
+            int offset = y * bitMatrixWidth;
+
+            for (int x = 0; x < bitMatrixWidth; x++) {
+
+                pixels[offset + x] = bitMatrix.get(x, y) ?
+                        getResources().getColor(R.color.colorPrimary):getResources().getColor(R.color.colorAccent);
+            }
+        }
+        Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
+
+        bitmap.setPixels(pixels, 0, 50, 0, 0, bitMatrixWidth, bitMatrixHeight);
+        return bitmap;
+    }
     @Override
     public void onStart() {
         super.onStart();

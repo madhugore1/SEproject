@@ -19,11 +19,10 @@ import com.google.zxing.common.BitMatrix;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button signOut,btnQrcode;
+    private Button btnBook, btnHistory, signOut, btnQrcode;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
     Bitmap bitmap ;
-    ImageView qrImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,24 +48,18 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        btnBook = (Button)findViewById(R.id.btn_book);
+        btnHistory = (Button)findViewById(R.id.btn_history);
         signOut = (Button)findViewById(R.id.sign_out);
         btnQrcode=(Button)findViewById(R.id.btn_qrcode);
-        qrImage=(ImageView)findViewById(R.id.qrimage);
 
-
-        btnQrcode.setOnClickListener(new View.OnClickListener() {
+        btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-                Bitmap qrCode1 = new AwesomeQRCode.Renderer()
-                        .contents("SE project")
-                        .size(800).margin(20)
-                        .render();
-                qrImage.setImageBitmap(qrCode1);
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, BookActivity.class));
             }
-
-
         });
+
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

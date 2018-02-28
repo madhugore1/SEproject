@@ -11,6 +11,14 @@
     <string name="sign_out_text">Sign Out</string>
     <string name="welcome_text">You are logged in! Welcome!</string>
     <string name="btn_qrcode_text">QR Code</string>
+    <string name="btn_book">Book</string>
+    <string name="btn_history">History</string>
+    <string name="source_text">Source</string>
+    <string name="destination_text">Destination</string>
+    <string name="no_tickets_text">No.of tickets</string>
+    <string name="single_journey">Single</string>
+    <string name="return_journey">Return</string>
+    <string name="total_text">Get Total :</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />

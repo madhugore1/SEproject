@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import com.github.sumimakito.awesomeqr.AwesomeQRCode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,6 +21,8 @@ public class GenerateQRActivity extends AppCompatActivity {
     private ImageView qrImage;
     private String qrString;
     private FirebaseAuth auth;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mUserReference, mTicketReference;
     private String TAG = GenerateQRActivity.class.getSimpleName();
 
     @Override
@@ -35,6 +39,9 @@ public class GenerateQRActivity extends AppCompatActivity {
         //get email of current user
         String email = user.getEmail();
 
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUserReference = mFirebaseDatabase.getReference("users").child(user.getUid()).child("booked_tickets");
+
         //get current date and time
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -49,5 +56,13 @@ public class GenerateQRActivity extends AppCompatActivity {
                 .size(800).margin(20)
                 .render();
         qrImage.setImageBitmap(qrCode1);
+
+        String ticket_id = mUserReference.push().getKey();
+        mUserReference.child("ticket_id").setValue(ticket_id);
+
+        Ticket ticket = new Ticket(user.getEmail());
+        mTicketReference = mFirebaseDatabase.getReference().child("tickets").child(ticket_id);
+        mTicketReference.child("user_id").setValue(user.getEmail());
+
     }
 }

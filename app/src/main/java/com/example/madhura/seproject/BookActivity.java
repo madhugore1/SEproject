@@ -11,9 +11,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BookActivity extends AppCompatActivity {
 
@@ -21,6 +27,9 @@ public class BookActivity extends AppCompatActivity {
     private Spinner stationSpinner1, stationSpinner2;
     private Button btnSingle, btnReturn, btnFinalBook, getTotal;
     private EditText noTicketsInput;
+    private FirebaseAuth auth;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mUserReference, mTicketReference;
     private TextView total;
     private int fare = 10, amount = 0, tickets = 0;
     private boolean single = true;
@@ -30,6 +39,15 @@ public class BookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
+
+        auth = FirebaseAuth.getInstance();
+        //get current user
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //get email of current user
+        String email = user.getEmail();
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUserReference = mFirebaseDatabase.getReference("users").child(user.getUid()).child("booked_tickets");
 
         stationList = new ArrayList<String>();
         addStations();
@@ -108,30 +126,20 @@ public class BookActivity extends AppCompatActivity {
                     Toast.makeText(BookActivity.this, "Invalid data", Toast.LENGTH_SHORT).show();
                 }
                 else {
-
-                    generateQRcode();
-                    startActivity(new Intent(BookActivity.this, GenerateQRActivity.class));
+                    HashMap<String,String> TicketDetails = new HashMap<>();
+                    TicketDetails.put("source",source);
+                    TicketDetails.put("destination",destination);
+                    TicketDetails.put("tickets",String.valueOf(tickets));
+                    TicketDetails.put("amount",String.valueOf(amount));
+                    TicketDetails.put("fare",String.valueOf(fare));
+                    Intent intent = new Intent(BookActivity.this,GenerateQRActivity.class);
+                    intent.putExtra("TicketDetails",TicketDetails);
+                    startActivity(intent);
                 }
             }
         });
 
-
-
-
-
-
-
-
     }
-
-
-
-
-    public void generateQRcode() {
-
-    }
-
-
 
     public void addStations() {
         stationList.add("CSMT");

@@ -68,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,History.class));
+            }
+        });
+
 
     }
 

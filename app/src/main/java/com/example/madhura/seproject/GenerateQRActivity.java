@@ -1,5 +1,6 @@
 package com.example.madhura.seproject;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 public class GenerateQRActivity extends AppCompatActivity {
 
@@ -24,6 +26,8 @@ public class GenerateQRActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mUserReference, mTicketReference;
     private String TAG = GenerateQRActivity.class.getSimpleName();
+    private int fare,amount,tickets;
+    private String source,destination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,15 @@ public class GenerateQRActivity extends AppCompatActivity {
         //get email of current user
         String email = user.getEmail();
 
+        Intent intent = getIntent();
+
+        HashMap<String,String> TicketDetails = (HashMap<String,String>) intent.getSerializableExtra("TicketDetails");
+        source = TicketDetails.get("source");
+        destination = TicketDetails.get("destination");
+        fare = Integer.parseInt(TicketDetails.get("fare"));
+        amount = Integer.parseInt(TicketDetails.get("amount"));
+        tickets = Integer.parseInt(TicketDetails.get("tickets"));
+
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserReference = mFirebaseDatabase.getReference("users").child(user.getUid()).child("booked_tickets");
 
@@ -47,23 +60,19 @@ public class GenerateQRActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String dateTime = sdf.format(currentTime);
 
-        qrString = email + dateTime;
-
-        Log.v(TAG, qrString);
+        String ticket_id = mUserReference.push().getKey();
 
         Bitmap qrCode1 = new AwesomeQRCode.Renderer()
-                .contents(qrString)
+                .contents(ticket_id)
                 .size(800).margin(20)
                 .render();
         qrImage.setImageBitmap(qrCode1);
 
-        //String ticket_id = mUserReference.push().getKey();
-        //mUserReference.child("ticket_id").setValue(ticket_id);
+        mUserReference.child("ticket_id").push().setValue(ticket_id);
 
-        Ticket ticket = new Ticket(user.getEmail());
-        mTicketReference = mFirebaseDatabase.getReference().child("tickets");
-        String ticket_id = mTicketReference.push().getKey();
-        mTicketReference.child(ticket_id).child("user_id").setValue(user.getEmail());
+        Ticket ticket = new Ticket(ticket_id,user.getEmail(),source,destination,amount,tickets,fare,dateTime);
+        mTicketReference = mFirebaseDatabase.getReference().child("tickets").child(ticket_id);
+        mTicketReference.setValue(ticket);
 
     }
 }

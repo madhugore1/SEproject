@@ -21,7 +21,8 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".BookActivity" />
-        <activity android:name=".GenerateQRActivity"></activity>
+        <activity android:name=".GenerateQRActivity" />
+        <activity android:name=".History"></activity>
     </application>
 
 </manifest>

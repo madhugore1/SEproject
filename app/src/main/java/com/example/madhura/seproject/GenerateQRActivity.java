@@ -57,12 +57,13 @@ public class GenerateQRActivity extends AppCompatActivity {
                 .render();
         qrImage.setImageBitmap(qrCode1);
 
-        String ticket_id = mUserReference.push().getKey();
-        mUserReference.child("ticket_id").setValue(ticket_id);
+        //String ticket_id = mUserReference.push().getKey();
+        //mUserReference.child("ticket_id").setValue(ticket_id);
 
         Ticket ticket = new Ticket(user.getEmail());
-        mTicketReference = mFirebaseDatabase.getReference().child("tickets").child(ticket_id);
-        mTicketReference.child("user_id").setValue(user.getEmail());
+        mTicketReference = mFirebaseDatabase.getReference().child("tickets");
+        String ticket_id = mTicketReference.push().getKey();
+        mTicketReference.child(ticket_id).child("user_id").setValue(user.getEmail());
 
     }
 }

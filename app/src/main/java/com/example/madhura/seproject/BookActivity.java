@@ -108,12 +108,30 @@ public class BookActivity extends AppCompatActivity {
                     Toast.makeText(BookActivity.this, "Invalid data", Toast.LENGTH_SHORT).show();
                 }
                 else {
+
+                    generateQRcode();
                     startActivity(new Intent(BookActivity.this, GenerateQRActivity.class));
                 }
             }
         });
 
+
+
+
+
+
+
+
     }
+
+
+
+
+    public void generateQRcode() {
+
+    }
+
+
 
     public void addStations() {
         stationList.add("CSMT");

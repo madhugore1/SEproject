@@ -23,7 +23,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".BookActivity" />
         <activity android:name=".GenerateQRActivity" />
-        <activity android:name=".History"></activity>
+        <activity android:name=".History" />
+        <activity android:name=".TcActivity"></activity>
     </application>
 
 </manifest>

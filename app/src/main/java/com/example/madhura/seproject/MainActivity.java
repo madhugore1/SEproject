@@ -7,9 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
-import com.github.sumimakito.awesomeqr.AwesomeQRCode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.BarcodeFormat;
@@ -19,13 +17,13 @@ import com.google.zxing.common.BitMatrix;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnBook, btnHistory, signOut, btnQrcode;
+    private Button btnBook, btnHistory, signOut,btnTc;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
     Bitmap bitmap ;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -51,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         btnBook = (Button)findViewById(R.id.btn_book);
         btnHistory = (Button)findViewById(R.id.btn_history);
         signOut = (Button)findViewById(R.id.sign_out);
-        btnQrcode=(Button)findViewById(R.id.btn_qrcode);
+        btnTc=(Button)findViewById(R.id.btn_tc);
 
         btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +72,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, History.class));
             }
         });
+
+        if(user.getEmail().toString().equals("gujarshlok@gmail.com")) {
+            btnTc.setVisibility(View.VISIBLE);
+            btnTc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, TcActivity.class));
+                }
+            });
+        }
 
 
     }

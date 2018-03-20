@@ -19,6 +19,7 @@
     <string name="single_journey">Single</string>
     <string name="return_journey">Return</string>
     <string name="total_text">Get Total :</string>
+    <string name="tc">TC</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />

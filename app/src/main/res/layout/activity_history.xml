@@ -7,7 +7,7 @@
     tools:context="com.example.madhura.seproject.History">
 
     <ListView
-        android:id="@+id/HistoryList"
+        android:id="@+id/history_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:divider="#000000"

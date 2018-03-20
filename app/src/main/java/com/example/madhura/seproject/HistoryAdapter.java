@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,29 +19,47 @@ import java.util.ArrayList;
 
 public class HistoryAdapter extends ArrayAdapter<Ticket> {
 
-    public Ticket ticket[];
-    int layout;
-    Context mContext;
+    ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 
-    public HistoryAdapter(Ticket[] ticket, int layout, Context context) {
-        super(context, layout);
-        this.ticket = ticket;
-        this.mContext = context;
-        layout = layout;
+    public HistoryAdapter(Context context, int layoutResourceId, ArrayList<Ticket> tickets) {
+        super(context, layoutResourceId, tickets);
+        this.tickets = tickets;
     }
 
-    @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return super.getView(position, convertView, parent);
+    public int getCount() {
+        return super.getCount();
+    }
 
-        if(convertView == null) {
-            LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-            convertView = inflater.inflate(layout, parent, false);
-        }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-        Ticket newTicket = ticket[position];
+        View v = convertView;
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        v = inflater.inflate(R.layout.history_list_container, null);
 
-        TextView source = (TextView)convertView.findViewById(R.id.source);
+        Log.v("HistoryAdapter ", "HistoryAdapter was called");
+        //ticket id
+        TextView ticketIdTextView = (TextView) v.findViewById(R.id.ticket_id);
+        ticketIdTextView.setText(tickets.get(position).getTicket_id());
+        Log.v("HistoryAdapter", ticketIdTextView.getText().toString());
+        //source
+        TextView sourceTextView = (TextView) v.findViewById(R.id.source);
+        sourceTextView.setText(tickets.get(position).getSource());
+        //destination
+        TextView destTextView = (TextView) v.findViewById(R.id.destination);
+        destTextView.setText(tickets.get(position).getDestination());
+        //no. of tickets
+        TextView numberOfTicketsTextView = (TextView) v.findViewById(R.id.number_of_tickets);
+        numberOfTicketsTextView.setText(tickets.get(position).getTickets());
+        //total amount
+        TextView totalAmountTextView = (TextView) v.findViewById(R.id.total_amount);
+        totalAmountTextView.setText(tickets.get(position).getAmount());
+        //timestamp
+        TextView dateTimeTextView = (TextView) v.findViewById(R.id.date_time);
+        dateTimeTextView.setText(tickets.get(position).getTimestamp());
+
+        return v;
+
     }
 }

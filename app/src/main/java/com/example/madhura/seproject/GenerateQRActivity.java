@@ -68,7 +68,7 @@ public class GenerateQRActivity extends AppCompatActivity {
                 .render();
         qrImage.setImageBitmap(qrCode1);
 
-        mUserReference.child("ticket_id").push().setValue(ticket_id);
+        mUserReference.push().child("ticket_id").setValue(ticket_id);
 
         Ticket ticket = new Ticket(ticket_id,user.getEmail(),source,destination,amount,tickets,fare,dateTime);
         mTicketReference = mFirebaseDatabase.getReference().child("tickets").child(ticket_id);

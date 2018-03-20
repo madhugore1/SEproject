@@ -78,6 +78,10 @@ public class Ticket {
         this.ticket_id = ticket_id;
     }
 
+    public Ticket() {
+        //necessary for firebase
+    }
+
     public Ticket(String ticket_id, String user_email, String source, String destination, int amount, int tickets, int fare, String timestamp) {
         this.ticket_id = ticket_id;
         this.user_email = user_email;

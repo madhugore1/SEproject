@@ -2,6 +2,8 @@ package com.example.madhura.seproject;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -15,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class History extends AppCompatActivity {
 
@@ -22,21 +25,30 @@ public class History extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mUserReference, mTicketReference;
     public ArrayList<String> ticket_ids = new ArrayList<String>();
-    public ArrayList<Ticket> tickets = new ArrayList<Ticket>();
-    public ListView historyList;
+    public ArrayList<Ticket> tickets;
+    public RecyclerView historyList;
+    HistoryAdapter historyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        historyList = (ListView) findViewById(R.id.history_list);
+        historyList = (RecyclerView) findViewById(R.id.history_list);
+
+        tickets = new ArrayList<>();
 
         auth = FirebaseAuth.getInstance();
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //get email of current user
         String email = user.getUid();
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        historyAdapter = new HistoryAdapter(tickets,History.this);
+        historyList.setAdapter(historyAdapter);
+        historyList.setLayoutManager(linearLayoutManager);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mTicketReference = mFirebaseDatabase.getReference("tickets");
@@ -50,9 +62,9 @@ public class History extends AppCompatActivity {
                     String ticket_id = snapshot.getValue(String.class);
                     ticket_ids.add(ticket_id);
                     Log.v("History ", "ticket_id : " + ticket_id);
-
                     getTicketDetails(ticket_id);
                 }
+                Log.v("History", "Test Test Test");
             }
 
             @Override
@@ -75,11 +87,6 @@ public class History extends AppCompatActivity {
 
             }
         });
-
-        Log.v("History", "Test Test Test");
-        HistoryAdapter historyAdapter = new HistoryAdapter(this, R.layout.history_list_container, tickets);
-        historyList.setAdapter(historyAdapter);
-
     }
 
     public void getTicketDetails(String ticket_id) {
@@ -87,8 +94,10 @@ public class History extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot ticketSnapshot) {
                 Ticket ticket_details = ticketSnapshot.getValue(Ticket.class);
+//                tickets.add(ticket_details);
+                Log.v("History ", "ticket_details : source : " + ticket_details.getSource());
                 tickets.add(ticket_details);
-                //Log.v("History ", "ticket_details : source : " + ticket_details.getSource());
+                historyAdapter.notifyDataSetChanged();
             }
 
             @Override

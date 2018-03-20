@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.madhura.seproject.History">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/history_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

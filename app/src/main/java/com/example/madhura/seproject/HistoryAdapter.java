@@ -23,6 +23,7 @@ import java.util.List;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
     List<Ticket> tickets;
+    private static ClickListener clickListener;
     private final Activity activity;
 
     public HistoryAdapter(List<Ticket> tickets, Activity activity) {
@@ -45,12 +46,20 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.dateTimeTextView.setText(tickets.get(position).getTimestamp());
     }
 
+    public void setOnItemClickListener(HistoryAdapter.ClickListener clickListener) {
+        HistoryAdapter.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+    }
+
     @Override
     public int getItemCount() {
         return tickets.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView ticketIdTextView,sourceTextView,numberOfTicketsTextView,totalAmountTextView,dateTimeTextView,destTextView;
         ViewHolder(View itemView) {
             super(itemView);
@@ -60,6 +69,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             numberOfTicketsTextView = (TextView) itemView.findViewById(R.id.number_of_tickets);
             totalAmountTextView = (TextView) itemView.findViewById(R.id.total_amount);
             dateTimeTextView = (TextView) itemView.findViewById(R.id.date_time);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            clickListener.onItemClick(getAdapterPosition(), v);
         }
     }
 }

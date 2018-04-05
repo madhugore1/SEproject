@@ -107,7 +107,7 @@ public class History extends AppCompatActivity {
             public void onDataChange(DataSnapshot ticketSnapshot) {
                 Ticket ticket_details = ticketSnapshot.getValue(Ticket.class);
 //                tickets.add(ticket_details);
-                Log.v("History ", "ticket_details : source : " + ticket_details.getSource());
+//                Log.v("History ", "ticket_details : source : " + ticket_details.getSource());
                 tickets.add(ticket_details);
                 historyAdapter.notifyDataSetChanged();
             }

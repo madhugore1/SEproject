@@ -1,10 +1,12 @@
 package com.example.madhura.seproject;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +51,16 @@ public class History extends AppCompatActivity {
         historyAdapter = new HistoryAdapter(tickets,History.this);
         historyList.setAdapter(historyAdapter);
         historyList.setLayoutManager(linearLayoutManager);
+
+        historyAdapter.setOnItemClickListener(new HistoryAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                String id = tickets.get(position).getTicket_id();
+                Intent intent = new Intent(History.this,TicketDisplayActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
+            }
+        });
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mTicketReference = mFirebaseDatabase.getReference("tickets");

@@ -24,7 +24,8 @@
         <activity android:name=".BookActivity" />
         <activity android:name=".GenerateQRActivity" />
         <activity android:name=".History" />
-        <activity android:name=".TcActivity"></activity>
+        <activity android:name=".TcActivity" />
+        <activity android:name=".TicketDisplayActivity"></activity>
     </application>
 
 </manifest>

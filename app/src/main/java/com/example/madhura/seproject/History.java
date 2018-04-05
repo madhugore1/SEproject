@@ -51,7 +51,7 @@ public class History extends AppCompatActivity {
         historyAdapter = new HistoryAdapter(tickets,History.this);
         historyList.setAdapter(historyAdapter);
         historyList.setLayoutManager(linearLayoutManager);
-
+        //History List Onclick
         historyAdapter.setOnItemClickListener(new HistoryAdapter.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
@@ -61,7 +61,7 @@ public class History extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        //Retrieving details from Firebase
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mTicketReference = mFirebaseDatabase.getReference("tickets");
         mUserReference = mFirebaseDatabase.getReference("users").child(user.getUid()).child("booked_tickets");

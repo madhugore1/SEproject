@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class User {
 
+    // model user class
     public String email, name;
     public ArrayList booked_tickets;
 

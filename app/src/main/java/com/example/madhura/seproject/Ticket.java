@@ -6,6 +6,7 @@ package com.example.madhura.seproject;
 
 public class Ticket {
 
+    // model ticket class
     public String ticket_id;
     public String user_email;
     public String source;

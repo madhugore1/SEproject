@@ -1,8 +1,8 @@
 package com.example.madhura.seproject;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,8 +15,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +65,7 @@ public class BookActivity extends AppCompatActivity {
         total = (TextView)findViewById(R.id.total);
         btnFinalBook = (Button)findViewById(R.id.btn_final_book);
 
+        //various onclick listeners
         btnSingle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +125,7 @@ public class BookActivity extends AppCompatActivity {
                     Toast.makeText(BookActivity.this, "Invalid data", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    //to get ticket details
                     HashMap<String,String> TicketDetails = new HashMap<>();
                     TicketDetails.put("source",source);
                     TicketDetails.put("destination",destination);
@@ -142,6 +142,7 @@ public class BookActivity extends AppCompatActivity {
     }
 
     public void addStations() {
+        //to add local stations
         stationList.add("CSMT");
         stationList.add("Masjid");
         stationList.add("Sandhurst Road");

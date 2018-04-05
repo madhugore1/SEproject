@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        // for registration and to check with firebase auth
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -43,6 +44,19 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish();
                 }
+                else
+                {
+                    if(user.getEmail().toString().equals("gujarshlok@gmail.com")) {
+                        btnTc.setVisibility(View.VISIBLE);
+                        btnTc.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                startActivity(new Intent(MainActivity.this, TcActivity.class));
+                            }
+                        });
+                    }
+
+                }
             }
         };
 
@@ -51,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         signOut = (Button)findViewById(R.id.sign_out);
         btnTc=(Button)findViewById(R.id.btn_tc);
 
+        // various onclick listeners
         btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,15 +88,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(user.getEmail().toString().equals("gujarshlok@gmail.com")) {
-            btnTc.setVisibility(View.VISIBLE);
-            btnTc.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, TcActivity.class));
-                }
-            });
-        }
 
 
     }
@@ -144,4 +150,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
 }

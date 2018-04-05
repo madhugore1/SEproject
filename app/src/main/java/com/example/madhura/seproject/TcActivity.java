@@ -19,7 +19,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 public class TcActivity extends AppCompatActivity {
 
-    TextView ticket_id,source,destination,number,date,amount;
+    TextView ticket_id,source,destination,number,date,amount,email;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mTicketReference;
     Button buttonScan;
@@ -35,6 +35,7 @@ public class TcActivity extends AppCompatActivity {
         destination=(TextView)findViewById(R.id.destination);
         number=(TextView)findViewById(R.id.number_of_tickets);
         date=(TextView)findViewById(R.id.date_time);
+        email=(TextView)findViewById(R.id.email);
         amount=(TextView)findViewById(R.id.total_amount);
         buttonScan = (Button) findViewById(R.id.buttonScan);
         qrScan = new IntentIntegrator(this);
@@ -78,6 +79,7 @@ public class TcActivity extends AppCompatActivity {
                             number.setText(dataSnapshot.child("tickets").getValue().toString());
                             amount.setText(dataSnapshot.child("amount").getValue().toString());
                             date.setText(dataSnapshot.child("timestamp").getValue().toString());
+                            email.setText(dataSnapshot.child("user_email").getValue().toString());
 
                         }
                         //Log.d("h","hello");
